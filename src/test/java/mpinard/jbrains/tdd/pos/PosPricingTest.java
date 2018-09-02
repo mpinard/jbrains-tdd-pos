@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PosTest {
+public class PosPricingTest {
     private static final String BARCODE_PRODUCT1 = "23456";
     private static final String PRICE_TEXT_PRODUCT1 = "$11.50";
     
@@ -17,15 +17,18 @@ public class PosTest {
         
     private TestDisplay display;
     private PosTerminal pos;
+    private Inventory inventory;
     
     @Before
     public void setup() {
         display = new TestDisplay();
-        pos = new PosTerminal(display);
+        inventory = new Inventory();
+        pos = new PosTerminal(display, inventory);
         
     }
     @Test
     public void Given_FoundItem_When_OnBarCode_Then_PriceDisplayed() {
+        inventory.setPrice(BARCODE_PRODUCT1, PRICE_TEXT_PRODUCT1);
         pos.onBarcode(BARCODE_PRODUCT1);
         
         assertThat(display.getText()).isEqualTo(PRICE_TEXT_PRODUCT1);
@@ -33,6 +36,7 @@ public class PosTest {
 
     @Test
     public void Given_DifferentFoundItem_When_OnBarCode_Then_PriceDisplayed() {
+        inventory.setPrice(BARCODE_PRODUCT2, PRICE_TEXT_PRODUCT2);
         pos.onBarcode(BARCODE_PRODUCT2);
 
         assertThat(display.getText()).isEqualTo(PRICE_TEXT_PRODUCT2);

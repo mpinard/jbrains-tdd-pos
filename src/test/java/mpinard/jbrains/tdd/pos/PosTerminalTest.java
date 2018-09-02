@@ -1,20 +1,31 @@
 package mpinard.jbrains.tdd.pos;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 public class PosTerminalTest {
     
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-    
     @Test
     public void When_NullDisplayPassedInConstructor_Then_IllegalArgumentExceptionIsThrown() {
-        exception.expect(IllegalArgumentException.class);
-        exception.expectMessage("The display must not be null");
-        
-        new PosTerminal(null);
+        assertThatIllegalArgumentException().isThrownBy(() ->
+            new PosTerminal(null, new Inventory())
+        ).withMessage("The display must not be null");
+    }
+
+    @Test
+    public void When_NullInventoryPassedInConstructor_Then_IllegalArgumentExceptionIsThrown() {
+        assertThatIllegalArgumentException().isThrownBy(() ->
+            new PosTerminal(new TestDisplay(), null)
+        ).withMessage("The inventory must not be null");
+    }
+    
+    @Test
+    public void When_InventoryConstructedWithAllRequiredArguments_Then_NoExceptionIsThrown() {
+        assertThatCode(() ->
+            new PosTerminal(new TestDisplay(), new Inventory())
+        ).doesNotThrowAnyException();
     }
     
 }
