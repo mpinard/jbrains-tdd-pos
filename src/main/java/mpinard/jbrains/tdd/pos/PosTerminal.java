@@ -1,6 +1,6 @@
 package mpinard.jbrains.tdd.pos;
 
-public class PosTerminal {
+public class PosTerminal implements BarcodeEventListener {
 
     private static final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found";
     
@@ -20,6 +20,7 @@ public class PosTerminal {
         this.inventory = inventory;
     }
     
+    @Override
     public void onBarcode(final String barcode) {
         display.setText(inventory.getPrice(barcode).orElse(PRODUCT_NOT_FOUND_MESSAGE));
     }

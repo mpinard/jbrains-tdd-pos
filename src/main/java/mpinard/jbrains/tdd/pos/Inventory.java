@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Inventory {
-
     
     private final Map<String, String> productMap = new HashMap<>();
     
